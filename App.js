@@ -27,6 +27,28 @@ if(hasPermission === false) {
       style={{ flex: 1}}
       type={type}
       />
+       <TouchableOpacity
+       onPress={setHaspermission}
+            style={{
+              width: 130,
+              borderRadius: 4,
+              backgroundColor: 'red',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: 50
+            }}
+          >
+            <Text
+              style={{
+                color: '#fff',
+                fontWeight: 'bold',
+                textAlign: 'center'
+              }}
+            >
+              Abrir Camera
+            </Text>
+          </TouchableOpacity>
     </SafeAreaView>
   );
 }
