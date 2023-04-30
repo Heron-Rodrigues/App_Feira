@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react'
-import {StyleSheet, Text, View, Image} from 'react-native'
+import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native'
 import {Camera, CameraType, Constants} from 'expo-camera'
 import * as MediaLibrary from 'expo-media-library';
 import Button from './src/comp/Button';
@@ -46,17 +46,42 @@ export default function App () {
     return <Text> Sem acesso a camera</Text>
   }
 
-
-
 return(
-  <View style ={styles.container}>
-    {!image ? 
+  < View style ={styles.container}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: '#fff',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <TouchableOpacity
+          onPress={setHasCameraPermission}
+            style={{
+              width: 130,
+              borderRadius: 4,
+              backgroundColor: 'red',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: 40
+            }}>
+            <Text
+              style={{
+                color: '#fff',
+                fontWeight: 'bold',
+                textAlign: 'center'
+              }}
+            >Abrir Camera</Text>
+          </TouchableOpacity>
+        </View>
+
+    {!image ?  
     <Camera
     style = {styles.camera}
     type={type}
     flashMode={flash}
-    ref={cameraRef}
-    >
+    ref={cameraRef}>
       <View style={{
         flexDirection: 'row',
         justifyContent: 'space-between',
