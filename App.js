@@ -7,7 +7,7 @@ import Button from './src/comp/Button';
 export default function App () {
   const[hasCameraPermission, setHasCameraPermission] = useState(null);
   const[image, setImage] = useState(null);
-  const [type,  setType] = useState(Camera.Constants.Type.front);
+  const [type,  setType] = useState(Camera.Constants.Type.back);
   const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
   const cameraRef = useRef(null);
 
@@ -34,7 +34,7 @@ export default function App () {
     if(image){
       try{
         await MediaLibrary.createAssetAsync(image);
-        alert('Picture save!')
+        alert('Imagem Salva!')
         setImage(null)
       }catch(e){
         console.log(e)
@@ -63,7 +63,7 @@ return(
         padding: 30,
       }}>
         <Button icon={'retweet'} onPress={() => {
-          setType(type === CameraType.front ? CameraType.back : CameraType.front)
+          setType(type === CameraType.back ? CameraType.front : CameraType.back)
         }}/>
         <Button icon={'flash'} 
           color={flash === Camera.Constants.FlashMode.off ? 'gray' : '#f1f1f1'}
