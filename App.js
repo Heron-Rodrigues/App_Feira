@@ -47,7 +47,7 @@ export default function App () {
   }
 
 return(
-  < View style ={styles.container}>
+  <View style ={styles.container}>
         <View
           style={{
             flex: 1,
@@ -72,7 +72,7 @@ return(
                 fontWeight: 'bold',
                 textAlign: 'center'
               }}
-            >Abrir Camera</Text>
+              >Abrir Camera</Text>
           </TouchableOpacity>
         </View>
 
