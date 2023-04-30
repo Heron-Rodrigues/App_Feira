@@ -1,62 +1,110 @@
-import React, {useState, useEffect} from 'react'
-import {StyleSheet, Text, View, TouchableOpacity, SafeAreaView} from 'react-native'
-import {Camera} from 'expo-camera'
+import React, {useState, useEffect, useRef} from 'react'
+import {StyleSheet, Text, View, Image} from 'react-native'
+import {Camera, CameraType, Constants} from 'expo-camera'
+import * as MediaLibrary from 'expo-media-library';
+import Button from './src/comp/Button';
 
 export default function App () {
-const [type, setType] = useState(Camera.Constants.Type.back);
-const [hasPermission, setHaspermission] = useState(null);
+  const[hasCameraPermission, setHasCameraPermission] = useState(null);
+  const[image, setImage] = useState(null);
+  const [type,  setType] = useState(Camera.Constants.Type.front);
+  const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
+  const cameraRef = useRef(null);
 
-useEffect(() => {
-  (async () => {
-    const{ status } = await Camera.requestCameraPermissionsAsync();
-    setHaspermission(status === 'granted');
-  })();
-}, []);
+  useEffect(() => {
+    (async ()=> {
+      MediaLibrary.requestPermissionsAsync();
+      const cameraStatus = await Camera.requestCameraPermissionsAsync();
+      setHasCameraPermission(cameraStatus.status === 'granted');
+    })();
+  }, [])
 
-if(hasPermission === null){
-  return<View/>
-}
+  const takePicture = async () => {
+    if(cameraRef) {
+      try {
+        const data  = await cameraRef.current.takePictureAsync();
+        console.log(data);
+        setImage(data.uri);
+      }catch(e){
+        console.log(e);
+      }
+    }
+  }
+  const saveImage = async () => {
+    if(image){
+      try{
+        await MediaLibrary.createAssetAsync(image);
+        alert('Picture save!')
+        setImage(null)
+      }catch(e){
+        console.log(e)
+      }
+    }
+  }
 
-if(hasPermission === false) {
-  return <Text>Acesso negado</Text>
-}
+  if(hasCameraPermission === false) {
+    return <Text> Sem acesso a camera</Text>
+  }
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <Camera
-      style={{ flex: 1}}
-      type={type}
-      />
-       <TouchableOpacity
-       onPress={setHaspermission}
-            style={{
-              width: 130,
-              borderRadius: 4,
-              backgroundColor: 'red',
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: 50
-            }}
-          >
-            <Text
-              style={{
-                color: '#fff',
-                fontWeight: 'bold',
-                textAlign: 'center'
-              }}
-            >
-              Abrir Camera
-            </Text>
-          </TouchableOpacity>
-    </SafeAreaView>
+
+
+return(
+  <View style ={styles.container}>
+    {!image ? 
+    <Camera
+    style = {styles.camera}
+    type={type}
+    flashMode={flash}
+    ref={cameraRef}
+    >
+      <View style={{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 30,
+      }}>
+        <Button icon={'retweet'} onPress={() => {
+          setType(type === CameraType.front ? CameraType.back : CameraType.front)
+        }}/>
+        <Button icon={'flash'} 
+          color={flash === Camera.Constants.FlashMode.off ? 'gray' : '#f1f1f1'}
+          onPress={() => {
+            setFlash(flash === Camera.Constants.FlashMode.off
+              ? Camera.Constants.FlashMode.on
+              : Camera.Constants.FlashMode.off
+              )
+          }}/>
+      </View>
+    </Camera>
+    :
+    <Image source={{uri: image}} style={styles.camera}/>
+    }
+    <View>
+      {image ?
+      <View style={{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 50,
+      }}>
+        <Button title={"Re-take"} icon="retweet" onPress={() => setImage(null)}/>  
+        <Button title={"Salvar"} icon="check" onPress={saveImage}/>  
+      </View>
+      :
+      <Button title={'Tirar Foto'} icon="camera" onPress={takePicture}/>
+      }
+     </View>
+  </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
+    backgroundColor: '#000',
+    justifyContent: 'center',
+    paddingBottom: 20,
+  },
+  camera: {
+    flex: 1,
+    borderRadius: 20,
   }
 })
