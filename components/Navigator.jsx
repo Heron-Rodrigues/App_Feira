@@ -3,7 +3,7 @@ import { Download, DownloadRoute } from "../screens/Download";
 import { Upload, UploadRoute } from "../screens/Upload";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/Ionicons";
-import { Sobre, SobreRoute } from "../screens/sobre";
+import { Sobre, SobreRoute } from "../screens/Sobre";
 
 
 const Tab = createBottomTabNavigator();

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { StyleSheet } from "react-native";
 import { Text, View, Button, Select } from "native-base";
-import Icon from "react-native-vector-icons/Ionicons"
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 
