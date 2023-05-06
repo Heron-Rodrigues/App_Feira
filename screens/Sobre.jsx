@@ -1,15 +1,20 @@
-import React from "react";
-import { Box, Heading, Text, Image } from "native-base";
+import React, { useRef } from "react";
+import { Box, Heading, Text, Center, Button } from "native-base";
+import * as Speech from "expo-speech";
 
 export const SobreRoute = 'Sobre';
 
 export function Sobre() {
+  const text = "O Lorem Ipsum é um texto modelo da indústria tipográfica e de impressão. O Lorem Ipsum tem vindo a ser o texto padrão usado por estas indústrias desde o ano de 1500, quando uma misturou os caracteres de um texto para criar um espécime de livro. Este texto não só sobreviveu 5 séculos";
+
   return (
-    <Box>
-      <Heading h={1}>Titulo</Heading>
-      <Text>Cerrote</Text>
-      <Image {...styles.image} width={"100%"} src="https://images.pexels.com/photos/16549110/pexels-photo-16549110.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load" alt="Imagem" />
-    </Box>
+    <Center flex={1} padding={"16px"}>
+      <Box>
+        <Heading marginBottom={"12px"} size={"xl"}>Sobre</Heading>
+        <Button onPress={() => Speech.speak(text)} size={"lg"}>Abrir audio</Button>
+        <Text marginTop={"15px"}>{text}</Text>
+      </Box>
+    </Center>
   )
 }
 
