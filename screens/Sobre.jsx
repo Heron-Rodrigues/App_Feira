@@ -5,13 +5,12 @@ import * as Speech from "expo-speech";
 export const SobreRoute = 'Sobre';
 
 export function Sobre() {
-  const text = "O Lorem Ipsum é um texto modelo da indústria tipográfica e de impressão. O Lorem Ipsum tem vindo a ser o texto padrão usado por estas indústrias desde o ano de 1500, quando uma misturou os caracteres de um texto para criar um espécime de livro. Este texto não só sobreviveu 5 séculos";
+  const text = "Este app foi desenvolvido com o intuito de lhe auxiliar lhe proporcionando lugares pré mapeados assim facilitando a sua vida";
 
   return (
     <Center flex={1} padding={"16px"}>
-      <Box>
-        <Heading marginBottom={"12px"} size={"xl"}>Sobre</Heading>
-        <Button onPress={() => Speech.speak(text)} size={"lg"}>Abrir audio</Button>
+      <Box marginBottom={"200px"} >
+        <Button onPress={() => Speech.speak(text)} height={"300px"}>Abrir audio</Button>
         <Text marginTop={"15px"}>{text}</Text>
       </Box>
     </Center>
