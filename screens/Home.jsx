@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { StyleSheet } from "react-native";
-import { Text, View, Button, Select, HStack, Center } from "native-base";
+import { Text, View, Button, Select, HStack, Center, Image } from "native-base";
 import Icon from "react-native-vector-icons/Ionicons";
 import { Camera, CameraType } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
@@ -40,10 +40,10 @@ export function Home() {
       const data = await camera.takePictureAsync();
       console.log(data.uri)
       if (data) {
-        // RNFS.readFile(data.uri, 'base64')
-        //   .then(res => {
-        //     setImage(res);
-        //   })
+        RNFS.readFile(data.uri, 'base64')
+          .then(res => {
+            setImage(res);
+          })
       }
     }
     console.log(image);
@@ -60,6 +60,7 @@ export function Home() {
       <Button _pressed={{ bg: "darkBlue.700" }} onPress={() => { setloaded(!loaded) }} borderRadius={0} bg="darkBlue.400" size={"lg"} height={loaded ? "64px" : "50%"}>
         <Text fontSize={30}>Carregar Mapeamento</Text>
       </Button>
+      <View display={loaded ? "flex" : "none"} flex={1} position={"relative"} justifyContent={"flex-end"} alignItems={"center"}>
       {loaded ? (
         <Camera
           style={styles.camera}
@@ -67,18 +68,17 @@ export function Home() {
           type={CameraType.back}
         />
       ) : null}
-
-      <HStack position={"absolute"} py={3} w={"100%"}>
+      <HStack position={"absolute"} py={3} w={"100%"} justifyContent={"center"} alignItems={"center"}>
         <HStack>
-          <Button mx={"auto"} onPress={() => takePicture()} colorScheme={"gray"} w={"56px"} height={"56px"} borderRadius={"56px"}>
+          <Button onPress={() => takePicture()} colorScheme={"gray"} w={"70px"} height={"70px"} borderRadius={"56px"}>
             <HStack>
-              <Icon name="camera-outline" size={28} color={"white"} />
+              <Icon name="camera-outline" size={35} color={"white"}/>
             </HStack>
           </Button>
         </HStack>
       </HStack>
+      </View>
     </View>
-
   );
 }
 
