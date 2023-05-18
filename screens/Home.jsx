@@ -3,7 +3,10 @@ import { StyleSheet } from "react-native";
 import { Text, View, Button, Select } from "native-base";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
+import * as Speech from "expo-speech";
 
+// --> Mensagem de voz
+Speech.speak("Olá, seja bem-vindo ao aplicativo Me guia ai. Este app irá ser seu novo guia.");
 
 // --> Rota
 export const HomeRoute = 'Home';

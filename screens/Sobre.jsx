@@ -5,13 +5,15 @@ import * as Speech from "expo-speech";
 export const SobreRoute = 'Sobre';
 
 export function Sobre() {
-  const text = "Este app foi desenvolvido com o intuito de lhe auxiliar lhe proporcionando lugares pré mapeados assim facilitando a sua vida";
+  const text = "";
 
   return (
-    <Center flex={1} padding={"16px"}>
-      <Box marginBottom={"200px"} >
-        <Button onPress={() => Speech.speak(text)} height={"300px"}>Abrir audio</Button>
-        <Text marginTop={"15px"}>{text}</Text>
+    <Center flex={1} padding={"56px"}>
+      <Box width={"100%"} >
+        <Button onPress={() => Speech.speak("Este app foi desenvolvido com o intuito de lhe auxiliar lhe proporcionando lugares pré mapeados assim facilitando a sua vida")} height={"700px"} width={"100%"}>
+          <Text fontSize={30}>Abrir Audio</Text>
+        </Button>
+        <Text marginTop={"1px"} fontSize={"50px"}>{text}</Text>
       </Box>
     </Center>
   )
