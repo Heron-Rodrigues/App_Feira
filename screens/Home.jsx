@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { StyleSheet } from "react-native";
 import { Text, View, Button, Select, HStack, Center } from "native-base";
 import Icon from "react-native-vector-icons/Ionicons";
-import { Camera } from "expo-camera";
+import { Camera, CameraType } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import * as Speech from "expo-speech";
 
@@ -16,9 +16,9 @@ export const HomeRoute = 'Home';
 export function Home() {
   const [loaded, setloaded] = useState(false);
   const cameraRef = useRef(null);
-  const [camera, setCamera] = React.useState(false);
   const [permission, setPermission] = React.useState(false);
-  const [image, setImage] = React.useState(false);
+  const [camera, setCamera] = React.useState(false);
+  const [image, setImage] = React.useState(null);
 
   React.useEffect(() => {
     (async () => {
@@ -36,15 +36,17 @@ export function Home() {
   }, [])
 
   const takePicture = async () => {
-    const options = {
-      quality: 0.8,
-      base64: true,
-      skipProcessing: true,
-    };
     if (camera) {
-      const data = await camera.takePictureAsync(options);
-      setImage(data.uri);
-    }console.log(data.uri);
+      const data = await camera.takePictureAsync();
+      console.log(data.uri)
+      if (data) {
+        // RNFS.readFile(data.uri, 'base64')
+        //   .then(res => {
+        //     setImage(res);
+        //   })
+      }
+    }
+    console.log(image);
   }
 
   return (
@@ -55,27 +57,28 @@ export function Home() {
         <Select.Item label="Apartamento" />
         <Select.Item label="Corporação" />
       </Select>
-      <Button _pressed={{bg: "darkBlue.700"}} onPress={(e) => {setloaded(!loaded)}} borderRadius={0} bg="darkBlue.400" size={"lg"} height={loaded ? "64px" : "50%"}>Carregar mapeamento</Button>
+      <Button _pressed={{ bg: "darkBlue.700" }} onPress={() => { setloaded(!loaded) }} borderRadius={0} bg="darkBlue.400" size={"lg"} height={loaded ? "64px" : "50%"}>
+        <Text fontSize={30}>Carregar Mapeamento</Text>
+      </Button>
       {loaded ? (
         <Camera
           style={styles.camera}
-          ref={cameraRef}
+          ref={ref => setCamera(ref)}
+          type={CameraType.back}
         />
       ) : null}
 
-  <HStack position={"absolute"} py={3} w={"100%"}>
-    <HStack>
-      <Button mx={"auto"} onPress={() => takePicture()} colorScheme={"gray"} w={"56px"} height={"56px"} borderRadius={"56px"}>
+      <HStack position={"absolute"} py={3} w={"100%"}>
         <HStack>
-        <Icon name="camera-outline" size={28} color={"white"} />
+          <Button mx={"auto"} onPress={() => takePicture()} colorScheme={"gray"} w={"56px"} height={"56px"} borderRadius={"56px"}>
+            <HStack>
+              <Icon name="camera-outline" size={28} color={"white"} />
+            </HStack>
+          </Button>
+        </HStack>
       </HStack>
-      </Button>
-    </HStack>
-      </HStack>
-          
-
     </View>
-    
+
   );
 }
 
