@@ -57,8 +57,8 @@ export function Home() {
         <Select.Item label="Apartamento" />
         <Select.Item label="Corporação" />
       </Select>
-      <Button _pressed={{ bg: "darkBlue.700" }} onPress={() => { setloaded(!loaded) }} borderRadius={0} bg="darkBlue.400" size={"lg"} height={loaded ? "64px" : "50%"}>
-        <Text fontSize={30}>Carregar Mapeamento</Text>
+      <Button _pressed={{ bg: "darkBlue.600" }} onPress={() => { setloaded(!loaded) }} borderRadius={0} bg="darkBlue.400" size={"lg"} height={loaded ? "64px" : "50%"}>
+        <Text bold color={"white"} fontSize={23}>Carregar Mapeamento</Text>
       </Button>
       <View display={loaded ? "flex" : "none"} flex={1} position={"relative"} justifyContent={"flex-end"} alignItems={"center"}>
       {loaded ? (

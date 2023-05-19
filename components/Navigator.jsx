@@ -2,8 +2,10 @@ import { Home, HomeRoute } from "../screens/Home";
 import { Download, DownloadRoute } from "../screens/Download";
 import { Upload, UploadRoute } from "../screens/Upload";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Image } from "native-base";
 import Icon from "react-native-vector-icons/Ionicons";
 import { Sobre, SobreRoute } from "../screens/Sobre";
+import logo from "../assets/images/logo.png";
 
 
 const Tab = createBottomTabNavigator();
@@ -12,16 +14,26 @@ export function Navigator() {
   const iconSize = 30;
   return (
     <Tab.Navigator
-      screenOptions={{
-        tabBarStyle: {
-          height: 76,
-          paddingTop: 8,
-          paddingBottom: 8,
-        },
-        tabBarLabelStyle: {
-          fontSize: 16
-        }
-      }}
+      screenOptions={
+        ({ navigation }) => ({
+          headerLeft: () => (
+            <Image ml={5} source={logo} size={"50px"} alt="Logo do projeto"/>
+          ),
+          headerStyle: {
+            height: 86
+          },
+          tabBarStyle: {
+            height: 76,
+          },
+          tabBarIconStyle: {
+            marginTop: 4
+          },
+          tabBarLabelStyle: {
+            fontSize: 16,
+            marginBottom: 6
+          }
+        })
+      }
     >
       <Tab.Screen
         options={{
@@ -51,6 +63,6 @@ export function Navigator() {
         component={Sobre}
         name={SobreRoute}
       />
-    </Tab.Navigator>
+    </Tab.Navigator >
   );
 }
