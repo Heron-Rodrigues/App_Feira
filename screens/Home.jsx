@@ -1,27 +1,33 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import { StyleSheet } from "react-native";
-import { Text, View, Button, Select, HStack, Center, Image } from "native-base";
-import Icon from "react-native-vector-icons/Ionicons";
+import { Text, View, Button, Select } from "native-base";
 import { Camera, CameraType } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import * as Speech from "expo-speech";
+import { apiMeGuiaAi } from "../api";
 
 // --> Mensagem de voz
-Speech.speak("Olá, seja bem-vindo ao aplicativo Me guia ai. Este app irá ser seu novo guia.");
+// Speech.speak("Olá, seja bem-vindo ao aplicativo Me guia ai. Este app irá ser seu novo guia.");
 
 // --> Rota
 export const HomeRoute = 'Home';
 
 // --> Tela Inicial
 export function Home() {
-  const [loaded, setloaded] = useState(false);
-  const cameraRef = useRef(null);
+  const [loaded, setloaded] = React.useState(false);
+  const cameraRef = React.useRef(null);
   const [permission, setPermission] = React.useState(false);
   const [camera, setCamera] = React.useState(false);
-  const [image, setImage] = React.useState(null);
+
+  const takePicture = () => {
+    if (camera) {
+      const data = camera.takePictureAsync();
+      console.log(data.uri)
+    }
+  }
 
   React.useEffect(() => {
-    (async () => {
+    const requestPermissions = async () => {
       try {
         MediaLibrary.requestPermissionsAsync();
         const cameraStatus = await Camera.requestCameraPermissionsAsync();
@@ -32,21 +38,24 @@ export function Home() {
         console.log(e);
         setPermission(false);
       }
-    })();
+    };
+    requestPermissions();
   }, [])
 
-  const takePicture = async () => {
-    if (camera) {
-      const data = await camera.takePictureAsync();
-      console.log(data.uri)
-      if (data) {
-        RNFS.readFile(data.uri, 'base64')
-          .then(res => {
-            setImage(res);
-          })
-      }
-    }
-    console.log(image);
+
+  const example = () => {
+    console.log("Renan")
+  }
+
+  let interv;
+
+  const printExample = () => {
+    interv = setInterval(() => example(), 2000)
+  }
+
+  const stopExample = () => {
+    clearInterval(interv)
+    interv = null;
   }
 
   return (
@@ -57,27 +66,26 @@ export function Home() {
         <Select.Item label="Apartamento" />
         <Select.Item label="Corporação" />
       </Select>
-      <Button _pressed={{ bg: "darkBlue.600" }} onPress={() => { setloaded(!loaded) }} borderRadius={0} bg="darkBlue.400" size={"lg"} height={loaded ? "64px" : "50%"}>
+      <Button
+        onPress={() => { setloaded(!loaded); }}
+        _pressed={{ bg: "darkBlue.600" }}
+        borderRadius={0}
+        bg="darkBlue.400"
+        size={"lg"}
+        height={loaded ? "64px" : "50%"}
+      >
         <Text bold color={"white"} fontSize={23}>Carregar Mapeamento</Text>
       </Button>
-      <View display={loaded ? "flex" : "none"} flex={1} position={"relative"} justifyContent={"flex-end"} alignItems={"center"}>
-      {loaded ? (
-        <Camera
-          style={styles.camera}
-          ref={ref => setCamera(ref)}
-          type={CameraType.back}
-        />
-      ) : null}
-      <HStack position={"absolute"} py={3} w={"100%"} justifyContent={"center"} alignItems={"center"}>
-        <HStack>
-          <Button onPress={() => takePicture()} colorScheme={"gray"} w={"70px"} height={"70px"} borderRadius={"56px"}>
-            <HStack>
-              <Icon name="camera-outline" size={35} color={"white"}/>
-            </HStack>
-          </Button>
-        </HStack>
-      </HStack>
-      </View>
+      {loaded
+        ? (
+          <Camera
+            style={{ flex: 1 }}
+            useCamera2Api
+            onCameraReady={() => console.log("Camera Ready")}
+            ref={ref => setCamera(ref)}
+            type={CameraType.back}
+          />
+        ) : null}
     </View>
   );
 }

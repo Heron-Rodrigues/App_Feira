@@ -16,12 +16,11 @@ export function Navigator() {
     <Tab.Navigator
       screenOptions={
         ({ navigation }) => ({
-          headerLeft: () => (
-            <Image ml={5} source={logo} size={"50px"} alt="Logo do projeto"/>
-          ),
           headerStyle: {
-            height: 86
+            height: 104,
           },
+          headerTitle: () => (<Image source={logo} width={"110px"} height={"30px"}  alt="Logo do projeto"/>),
+          headerTitleAlign: "center",
           tabBarStyle: {
             height: 76,
           },
