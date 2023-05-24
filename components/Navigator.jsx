@@ -7,9 +7,10 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { Sobre, SobreRoute } from "../screens/Sobre";
 import logo from "../assets/images/logo.png";
 
-
+// Cria um NAVEGADOR
 const Tab = createBottomTabNavigator();
 
+// cria as ROTAS das telas
 export function Navigator() {
   const iconSize = 30;
   return (
@@ -19,21 +20,25 @@ export function Navigator() {
           headerStyle: {
             height: 104,
           },
-          headerTitle: () => (<Image source={logo} width={"110px"} height={"30px"}  alt="Logo do projeto"/>),
+          headerTitle: () => (
+            // LOGOTIPO do projeto
+            <Image source={logo} width={"110px"} height={"30px"} alt="Logo do projeto" />
+          ),
           headerTitleAlign: "center",
           tabBarStyle: {
-            height: 76,
+            height: 86,
           },
           tabBarIconStyle: {
-            marginTop: 4
+            marginTop: 12
           },
           tabBarLabelStyle: {
-            fontSize: 16,
-            marginBottom: 6
+            fontSize: 17,
+            marginBottom: 12,
           }
         })
       }
     >
+      {/* TELAS --> */}
       <Tab.Screen
         options={{
           tabBarIcon: ({ color }) => { return <Icon name="home-outline" size={iconSize} color={color} /> }
@@ -62,6 +67,7 @@ export function Navigator() {
         component={Sobre}
         name={SobreRoute}
       />
+      {/* <-- TELAS */}
     </Tab.Navigator >
   );
 }
